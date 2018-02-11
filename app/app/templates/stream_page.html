@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1' />
+<link rel="stylesheet" type="text/css" href="/static/style_stream.css">
+
+<title>{{page_title}}</title>
+</head>
+
+
+<body>
+<div id='big_div'>	
+	<div id='header'>
+		<span class='headerleft'>
+			{{header.home_element | safe}}&nbsp;
+			{{header.headerleft_elements | safe}}
+		</span>
+		<span class='headerright'>
+			{{header.headerright_elements | safe}}
+		</span>
+		<div class='clear'></div>
+	</div>
+
+	<br>
+
+	<div id='stream'>
+		{% for b in stream_list %}	
+			<div class='thread_container'>
+				<a class='thread_title' href='{{b.href}}'>{{b.title}}</a><br>
+				<span class='thread_info'>
+					by <a class='username' href='/user/{{b.username}}/'>{{b.username}}</a> | {{b.ago}} ago | {{b.reply_count_str}}
+				</span>
+
+			</div>			
+		{% endfor %}
+
+		{% if stream_list|length == 0 %}
+			<strong>No Threads yet.</strong>
+		{% endif %}
+	</div>
+
+	
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href='/static/assets/favicon.ico' />
+
+	<title>Start Thread | {{header.site_name}}</title>
+
+	<style type='text/css'>
+		/*
+		basic style start
+		*/
+		body {font-family : arial,helvetica,sans-serif; font-size: 14px; 
+			color : rgb(130,130,130);
+			background-color:rgb(245,245,245);
+			margin: 10px;
+
+		}
+
+		#big_div {width:80%; margin:0px auto; }
+
+
+		/* media queries */
+		@media only screen and (max-width: 600px) {
+			body {margin : 2px;}
+			#big_div{width: 98%; padding:5px 2px}	
+			.headerleft {display: block;}
+		}
+
+		.small {	
+			font-size: 12px;
+		}
+
+		#header {	
+			line-height: 18px;
+			color : rgb(130,130,130);
+			background-color: rgb(230,230,230);
+			padding: 2px;
+		}
+
+		.headerright {
+			float: right;
+		}
+
+		.clear {
+			clear: both;
+		}
+
+		a {
+			text-decoration: none;
+			color : rgb(100,100,100);
+			cursor : pointer;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		.home {
+			font-weight: bold;
+			font-size: 16px;
+			color : rgb(60,190,30);
+		}
+
+		.home:hover {
+			text-decoration: none;
+		}
+		/*
+		basic style end
+		*/
+
+
+		#other {		
+			color : rgb(30,30,30);		
+		}
+
+		h3 {
+			font-size: 14px;
+		}
+
+		td {
+			vertical-align: top;
+		}
+
+		.bad {color : red;}
+		.good {color : green;}
+
+		input[type=text] {
+			width : 300px;
+		}
+
+		textarea {
+			width: 400px;
+			height: 200px;
+		}
+
+		/* media queries */
+		@media only screen and (max-width: 480px) {
+			input[type=text] {
+				width : initial;
+			}
+			textarea {
+				width: 240px;
+				height: 150px;
+			}
+			
+		}
+
+
+	</style>
+
+	<script type='text/javascript'>		
+		document.addEventListener("DOMContentLoaded", init)
+
+		function init() {
+			document.forms['start_thread_form'].addEventListener('submit', on_thread_submit, false)
+			document.getElementById('submit_thread_button').addEventListener('click', on_thread_submit, false)
+		}
+
+		function on_thread_submit(evnt) {
+
+			evnt.preventDefault()
+			var button = document.getElementById('submit_thread_button')
+
+			var form_element = document.forms.start_thread_form
+			var form_data = new FormData()
+
+			var eee = form_element.elements
+			
+			var subject_e = eee.subject
+			var text_e = eee.text
+			var image = eee.image.files[0]
+
+			//cleaning form values			
+			var subject = subject_e.value = subject_e.value.trim()
+			var text = text_e.value = text_e.value.trim()
+			
+			if(subject.length > 140 || subject.split(/\r\n|\r|\n/).length > 1 ) {
+				start_thread_status_set('Subject too long', 'bad')
+				return
+			}
+
+			if(text.length > 2000 || text.split(/\r\n|\r|\n/).length > 40 ) {
+				start_thread_status_set('Text too long', 'bad');
+				return
+			}
+
+			if (subject.length === 0 ) {
+				start_thread_status_set('Subject is empty', 'bad');
+				return
+			}
+
+			if (text.length === 0 && image == null) {
+				start_thread_status_set('empty content', 'bad')
+				return
+			}
+
+			// adding to form			
+			form_data.append('subject', subject)
+			form_data.append('text', text)
+			if (image != null) {
+				form_data.append('image', image)	
+			}			
+
+			// all good. time to post it
+			button.disabled = true;
+			start_thread_status_set('', '')
+
+			function on_ok(d) {
+				var json = JSON.parse(d)
+				var post_id = json.post_id
+				var redirect = json.redirect_url
+
+				var msg = 'post #' + post_id + ' created. Redirecting...'
+				start_thread_status_set(msg, 'good')
+
+				var redirect_call = function(){
+					eee.subject.value = ''
+					eee.text.value = ''					
+
+					window.location = redirect
+				}
+
+				setTimeout(redirect_call, 1500)
+			}
+
+		function on_progress(d) {
+			if (d.lengthComputable) {
+				var percentComplete = Math.round((d.loaded / d.total)*100);			
+				if(percentComplete > 0) {
+					button.innerHTML = percentComplete + '%'
+				}
+			}
+		}
+
+		function on_fail(status, d) {
+			if(status == 500 || status == 400) {
+				start_thread_status_set(d, 'bad')
+			} 
+			else if(status == 413) {
+				start_thread_status_set('image size too large', 'bad')
+			}
+			else {
+				start_thread_status_set(status, 'bad')
+			}
+			button.disabled = false
+			button.innerHTML = 'Post'
+		}
+
+		send_form(form_data, '/start_thread/', on_ok, on_progress, on_fail); 	
+		
+	}
+
+	function start_thread_status_set(msg, className) {	
+		e = document.getElementById('start_thread_status_div')
+		e.innerHTML = msg
+		e.className = className
+	}
+
+	// util functions
+	function send_form(form_data, endpoint, on_ok, on_progress, on_fail) {
+		var xhr = new XMLHttpRequest();
+		if(on_progress != null) { xhr.upload.addEventListener('progress', on_progress) }
+		
+		xhr.open('POST', endpoint );
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState === 4 ) {
+				if(xhr.status == 200 ) {
+					on_ok(xhr.responseText);
+				}
+				else {	
+					console.log('failed with status : ' + xhr.status + ' and readyState : ' + xhr.readyState);
+					on_fail(xhr.status, xhr.responseText)
+				}
+			}
+		}
+
+		xhr.send(form_data);
+	}
+
+
+	// trim polyfill
+	if (!String.prototype.trim) {
+	  String.prototype.trim = function () {
+	    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+	  };
+	}
+
+
+	</script>
+
+</head>
+
+<body>	
+	<div id='big_div'>	
+		<div id='header'>
+			<span class='headerleft'>
+				{{header.home_element | safe}}&nbsp;
+				{{header.headerleft_elements | safe}}
+			</span>
+			<span class='headerright'>
+				{{header.headerright_elements | safe}}
+			</span>
+			<div class='clear'></div>
+		</div>
+
+		<div id='other'>
+		{% if error_status is defined %}
+		<br>
+		
+		<span class='error'>{{error_status}}</span>
+		{% else %}
+		<h3>Start thread</h3>
+		<form id='start_thread_form' name='start_thread_form' enctype='multipart/form-data' method='post' >	
+			<table class='post_form' border = '0'>			
+				<tr>
+					<td>Subject</td>
+					<td>
+						<input name='subject' type='text' autofocus tabindex='1'  />
+						<button type="button" tabindex='3' id='submit_thread_button' >Submit</button>
+					</td>
+				</tr>
+				<tr>
+					<td>Text</td>
+					<td>
+						<textarea name='text' wrap='soft' tabindex='2'></textarea>
+					</td>
+				</tr>			
+				<tr>
+					<td>Image <br>(optional)</td>
+					<td>
+						<input type='file'  tabindex='4' name="image" />						
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2' >
+						<div id='start_thread_status_div'>
+							&nbsp;
+						</div>
+					</td>
+				</tr>		
+			</table>			
+		</form>
+
+		{% endif %}
+		</div>
+
+	</div>
+
+</body>
+
+</html>

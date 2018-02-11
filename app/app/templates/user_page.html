@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1' />
+<title>User : {{user}} | {{header.site_name}}</title>
+
+	<style type='text/css'>
+		/*
+		basic style start
+		*/
+		body {font-family : arial,helvetica,sans-serif; font-size: 14px; 
+			color : rgb(130,130,130);
+			background-color:rgb(245,245,245);
+			margin: 10px;
+
+		}
+
+		#big_div {width:80%; margin:0px auto; }
+
+
+		/* media queries */
+		@media only screen and (max-width: 600px) {
+			body {margin : 2px;}
+			#big_div{width: 98%; padding:5px 2px}	
+			.headerleft {display: block;}
+		}
+
+		.small {	
+			font-size: 12px;
+		}
+
+		#header {	
+			line-height: 18px;
+			color : rgb(130,130,130);
+			background-color: rgb(230,230,230);
+			padding: 2px;
+		}
+
+		.headerright {
+			float: right;
+		}
+
+		.clear {
+			clear: both;
+		}
+
+		a {
+			text-decoration: none;
+			color : rgb(100,100,100);
+			cursor : pointer;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		.home {
+			font-weight: bold;
+			font-size: 16px;
+			color : rgb(60,190,30);
+		}
+
+		.home:hover {
+			text-decoration: none;
+		}
+		/*
+		basic style end
+		*/
+
+		#other {		
+			color : rgb(30,30,30);		
+		}
+
+		td {
+			vertical-align: top;
+		}
+
+		textarea {
+			width: 240px;
+			height: 150px;
+		}
+
+		.bad {color : red;}
+		.good {color : green;}
+
+	</style>
+
+{% if i_am %}
+<script type='text/javascript'>		
+	function on_update_submit(button) {
+
+		var form_element = document.forms.about_update
+		var form_data = new FormData()
+
+		var eee = form_element.elements
+		
+		var about = eee.about.value.trim()		
+		
+		if(about.length > 2000 || about.split(/\r\n|\r|\n/).length > 20 ) {
+			about_update_status_set('text too long', 'bad');
+			return
+		}
+
+		// adding to form		
+		form_data.append('input_type', 'update_about')
+		form_data.append('about', about)
+
+		// all good. time to post it
+		button.disabled = true;
+		about_update_status_set('', '')
+
+		function on_ok(d) {			
+			about_update_status_set(d, '')
+			button.disabled = false;
+		}	
+
+		function on_fail(status, d) {
+			if(status == 500 || status == 400) {
+				about_update_status_set(d, 'bad')
+			}
+			else {
+				about_update_status_set(status, 'bad')
+			}
+			button.disabled = false			
+		}
+
+		send_form(form_data, '/update_user/', on_ok, null, on_fail); 	
+	
+	}
+
+	function about_update_status_set(msg, className) {	
+		e = document.getElementById('update_status')
+		e.innerHTML = msg
+		e.className = className
+	}
+
+	// util functions
+	function send_form(form_data, endpoint, on_ok, on_progress, on_fail) {
+		var xhr = new XMLHttpRequest();
+		if(on_progress != null) { xhr.upload.addEventListener('progress', on_progress) }
+		
+		xhr.open('POST', endpoint );
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState === 4 ) {
+				if(xhr.status == 200 ) {
+					on_ok(xhr.responseText);
+				}
+				else {	
+					console.log('failed with status : ' + xhr.status + ' and readyState : ' + xhr.readyState);
+					on_fail(xhr.status, xhr.responseText)
+				}
+			}
+		}
+
+		xhr.send(form_data);
+	}
+
+
+	// trim polyfill
+	if (!String.prototype.trim) {
+	  String.prototype.trim = function () {
+	    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+	  };
+	}
+
+</script>
+{% endif %}
+
+</head>
+
+
+<body>
+<div id='big_div'>	
+	<div id='header'>
+		<span class='headerleft'>
+			{{header.home_element | safe}}&nbsp;
+			{{header.headerleft_elements | safe}}
+		</span>
+		<span class='headerright'>
+			{{header.headerright_elements | safe}}
+		</span>
+		<div class='clear'></div>
+	</div>
+	<br>
+	{% if error_status is defined %}		
+		<span class='error'>{{error_status}}</span>
+	{% else %}
+	<table border = '0' id='other'>		
+		<tr>
+			<td>user:</td>
+			<td>{{user}}</td>
+		</tr>
+		<tr>
+			<td>created:</td>
+			<td>{{created_ago}} ago</td>
+		</tr>
+		<tr>
+			<td>last activity:</td>
+			<td>{{last_activity_ago}} ago</td>
+		</tr>
+		{% if i_am %}
+		<form name='about_update' method='post'>	
+		<tr>
+			<td>about :</td>
+			<td>
+				<textarea name='about' wrap='soft'>{{about}}</textarea><br>
+				<button name='submit_button' onclick='event.preventDefault(); on_update_submit(this);'>update</button>&nbsp;
+				<span id='update_status'></span>
+			</td>
+		</tr>
+		</form>
+		{% else %}
+		<tr>
+			<td>about :</td>
+			<td>{{about | safe}}</td>
+		</tr>
+		{% endif %}
+	</table>
+	{% endif %}
+
+	
+</div>
+
+</body>
+
+</html>

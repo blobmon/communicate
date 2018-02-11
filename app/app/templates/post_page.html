@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href='/static/assets/favicon.ico' />
+
+	<link rel="stylesheet" type="text/css" href="/static/style_post.css">
+	<script  type="text/javascript" src="/static/script_post.js"></script>
+
+	<script type="text/javascript">	
+		var login_status = {{header.login_status}}
+		var you_list = {{you_list}}
+		var thread_id = {{page_info.thread_id}}
+		var thread_locked = {{page_info.thread_locked}}
+	</script>
+
+
+	<title>{{page_info.page_title}}</title>
+
+</head>
+
+<body>
+	<div class='popup_hidden' id='popup_generic'></div>
+	
+	{% if header.login_status == 1 %}
+	<form name='report_form' >
+		<table class='popup_hidden' id='popup_report_box'>	
+		<tr>
+			<td colspan='2' align='right'><span class='close'>close(x)</span></td>
+		</tr>
+		<tr>
+			<td id='report_popup_header' >report post :</td>
+		</tr>
+		<tr id='report_form_reason_tr'>
+			<td colspan='2'>
+			<label>reason :</label><br>
+			<input type="radio" name="reason" value="spam"> spam / off-topic<br>
+			<input type="radio" name="reason" value="illegal"> illegal / improper content<br>
+			</td>
+		</tr>
+		<tr>
+			<td colspan='2' align='center'>
+			<button  id='report_button_send' class='button_send' type='button' >submit</button>
+			</td>
+		</tr>
+		<tr>
+			<td colspan='2' id='report_status_text'>
+				Error : you have already reported this post			
+			</td>
+		</tr>
+		</table>
+	</form>
+	{% endif %}
+	
+
+	
+	<form name='reply_form'>
+		<table class='popup_hidden' id='popup_reply_box'>
+		<tr>
+		<td colspan='2' align='right' ><a class='snap'>snap(↑)</a> | <a class='close'>close(x)</a></td>
+		</tr>    
+		<tr>
+		<td colspan='2'>
+		  {% if header.login_status == 1 %}
+		  <textarea name='text' placeholder="Comment" wrap='soft' tabindex='1' id='reply_input_comment' ></textarea>
+		  {% else %}
+		  <textarea name='text' placeholder="please login to comment" disabled='true' wrap='soft' tabindex='1' id='reply_input_comment' ></textarea>
+		  {% endif %}
+		  
+		</td>
+		</tr>
+		<tr>
+		<td>
+		 <input type='file' name="image" tabindex='3' class='small' id='reply_input_file' />
+		</td>
+		<td align='right'>		 
+		 <input id="reply_bump_checkbox" type="checkbox" name="bump" tabindex='2' value="bump" checked >
+		 <label id="reply_bump_label" for="bump" class="small">bump?</label>		 
+		 <button id='reply_button_send' class='button_send' type="button" tabindex='4' disabled='true'>submit</button>		 
+		</td>
+		</tr>
+		<tr>
+			<td colspan='2' id='reply_status_text'>
+				Error : you have already reported this post			
+			</td>
+		</tr>
+		</table>
+	</form>
+	
+
+	<!-- actual displayables start here -->	
+	<div id='big_div'>	
+		<div id='header'>
+			<span class='headerleft'>
+				{{header.home_element | safe}}&nbsp;
+				{{header.headerleft_elements | safe}}
+			</span>
+			<span class='headerright'>
+				{{header.headerright_elements | safe}}
+			</span>
+			<div class='clear'></div>
+		</div>
+
+		<br>
+
+		<div id='infobox_top' class='infobox' >	
+			<a href='#bottom' id='top'>bottom</a> |	<a href='#top' id='update_thread_top'>update</a>
+			<span class='small thread_status_txt'></span>
+
+			<span class='infobox_txt' >replies : {{page_info.reply_count}} | posters : {{page_info.posters_count}}</span>
+		</div>
+		
+		
+		<div id='posts'>
+			{% for post_container in innards %}
+			{{post_container|safe}}
+			{% endfor %}
+		</div>
+
+
+		<div id='submit_reply_div'>(<a id='submit_reply'>submit reply</a>)</div>
+		
+		<div id='infobox_bottom' class='infobox' >					
+			<a href='#top' id='bottom'>top</a> | <a href='#bottom' id='update_thread_bottom'>update</a>
+
+			<span class='small thread_status_txt'></span>
+			<span class='infobox_txt' >replies : {{page_info.reply_count}} | posters : {{page_info.posters_count}}</span>
+		</div>
+		
+
+		
+
+	
+	</div> <!-- big div end -->
+
+
+</body>
+
+</html>

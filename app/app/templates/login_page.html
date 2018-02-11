@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>login or create account</title>
+	<style type='text/css'>		
+		body {font-family : arial,helvetica,sans-serif; font-size: 14px; }		
+		.error {color : red;}
+		.note {background-color: rgb(230,230,230); border-radius: 2px; padding: 2px; font-size: 12px;}
+	</style>
+
+</head>
+
+<body>	
+	<span class='error'>{{error_status}}</span>
+
+	{%if show_login == 1 %}
+	<div id='login_div'>
+		<br>
+		<strong>Login : </strong><br>
+		<form name='login' method='post' action='/login/'>
+			{{goto_hidden_input | safe}}
+			<input type='hidden' name='input_type' value='login'>
+			<table border = '0'>
+				
+				<tr>
+					<td>username :</td>
+					<td><input name='username' type='text' value='{{username_top}}'> <br></td>
+				</tr>
+				<tr>
+					<td>password :</td>
+					<td><input name='password' type='password' value='{{password_top}}'><br></td>
+				</tr>			
+			</table>
+			<br>
+			<input value='login' type='submit' name='submit_button'>
+		</form>
+
+	</div>
+
+	<br><br>
+	{% endif %}
+
+			
+	<div id='create_account_div'>
+		<br>
+		<strong>Create Account : </strong><br>
+		<form name='create_account' method='post' action='/login/'>
+			{{goto_hidden_input | safe}}
+			<input type='hidden' name='input_type' value='create_account'>
+			<table border = '0'>			
+				<tr>
+					<td>username :</td>
+					<td><input name='username' type='text' value='{{username_bot}}'> <br></td>
+				</tr>
+				<tr>
+					<td>password :</td>
+					<td><input name='password' type='password' value='{{password_bot}}'><br></td>
+				</tr>
+			</table>
+			<br>
+			<span class='note'>do not forget your password.</span>
+			<br><br>
+			<input value='create account' type='submit' name='submit_button'>
+		</form>
+
+	</div>	
+
+</body>
+
+</html>

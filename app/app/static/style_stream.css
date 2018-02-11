@@ -1,0 +1,102 @@
+/*
+basic style start
+*/
+body {font-family : arial,helvetica,sans-serif; font-size: 14px; 
+	color : rgb(130,130,130);
+	background-color:rgb(245,245,245);
+	margin: 10px;
+
+}
+
+#big_div {width:80%; margin:0px auto; }
+
+
+/* media queries */
+@media only screen and (max-width: 600px) {
+	body {margin : 2px;}
+	#big_div{width: 98%; padding:5px 2px}	
+	.headerleft {display: block;}
+}
+
+.small {	
+	font-size: 12px;
+}
+
+#header {	
+	line-height: 18px;
+	color : rgb(130,130,130);
+	background-color: rgb(230,230,230);
+	padding: 2px;
+}
+
+.headerright {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+a {
+	text-decoration: none;
+	color : rgb(100,100,100);
+	cursor : pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.home {
+	font-weight: bold;
+	font-size: 16px;
+	color : rgb(60,190,30);
+}
+
+.home:hover {
+	text-decoration: none;
+}
+/*
+basic style end
+*/		
+
+
+
+
+.thread_container {
+	margin-bottom : 20px;
+}
+
+.thread_title {
+	color : rgb(60,100,240);
+	font-weight: bold;	
+	line-height: 90%;
+}
+.thread_title:visited {
+	color : rgb(60,60,200);
+}
+.thread_title:hover {
+	text-decoration: none;
+}
+
+.thread_info {
+	font-size: 12px;
+	
+}
+
+.username {	
+	color : rgb(100,100,100);
+}
+
+.username:hover {
+	text-decoration: underline;
+}
+
+/* media queries */
+@media only screen and (max-width: 480px) {
+	.thread_container {
+		margin-top : 10px;		
+	}	
+}
+
+

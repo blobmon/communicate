@@ -1,0 +1,269 @@
+/*
+basic style start
+*/
+body {font-family : arial,helvetica,sans-serif; font-size: 14px; 
+	color : rgb(130,130,130);
+	background-color:rgb(245,245,245);
+	margin: 10px;
+
+}
+
+#big_div {width:80%; margin:0px auto; }
+
+
+/* media queries */
+@media only screen and (max-width: 600px) {
+	body {margin : 2px;}
+	#big_div{width: 98%; padding:5px 2px}	
+	.headerleft {display: block;}
+}
+
+.small {	
+	font-size: 12px;
+}
+
+#header {	
+	line-height: 18px;
+	color : rgb(130,130,130);
+	background-color: rgb(230,230,230);
+	padding: 2px;
+}
+
+.headerright {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+a {
+	text-decoration: none;
+	color : rgb(100,100,100);
+	cursor : pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.home {
+	font-weight: bold;
+	font-size: 16px;
+	color : rgb(60,190,30);
+}
+
+.home:hover {
+	text-decoration: none;
+}
+/*
+basic style end
+*/		
+
+
+
+/* popup related */
+.close, .snap {
+  cursor : pointer;
+  font-family: monospace;
+}
+
+.good {
+	font-family: monospace;	
+}
+.bad {
+	font-family: monospace;
+	color: red;
+}
+
+#popup_generic {	
+	pointer-events: none;
+	margin: 0px;
+	padding: 0px;
+	z-index: 10;	
+}
+
+/*to prevent that bug in mobile*/
+#popup_generic .post {
+	border : 1px solid #777;
+}
+
+#popup_report_box {
+  max-width:200px;  
+  font-size : 12px;
+  border : 1px solid #777;
+  z-index: 50;
+  background-color:rgb(245,245,245);
+}
+
+#popup_reply_box {
+  min-width:270px;  
+  font-size : 12px;
+  border : 1px solid #777;
+  z-index: 100;
+  background-color:rgb(245,245,245);
+}
+
+table input[type="text"],
+table textarea {
+  width: 100%;   
+  font: inherit;
+  box-sizing: border-box;
+}
+
+table textarea {
+  min-height : 100px;
+}
+
+.popup_hidden {
+	position: absolute;
+	display : none;
+}
+
+.popup_active {
+	position: absolute;
+	display : block;	
+}
+
+/* infobox related */
+
+
+
+.infobox_txt {
+	float : right;
+}
+
+#infobox_top {
+	margin-bottom: 20px;
+}
+
+#infobox_bottom {
+	margin-top: 20px;
+}
+
+/* other */
+
+.post_container {	
+	
+	display:block;
+	margin: 10px 0px;
+	/*padding-bottom: 10px;*/
+
+	width: 98%;
+	max-width: 100%;
+
+	/*border-bottom: 2px solid rgb(230,230,230);*/	
+}
+
+.post {
+	display: inline-block;
+
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	background-color: rgb(230,230,230);
+	padding : 5px;
+	border-radius: 2px;
+}
+
+.post.selected {
+	background-color: rgb(210,210,210)
+}
+
+.post_container .op_post {
+	background-color:rgb(245,245,245);
+}
+
+.post_message.deleted {
+	color : #933;
+}
+
+.post.hidden .qbl, .post.hidden .post_message, .post.hidden .file_info, .post.hidden .file_thumb
+{
+	display : none;
+}
+
+.expanded_img {
+	height : auto;
+	width : auto;
+	max-width: 95%;	
+}
+
+.hided, img.hidden {
+	display: none;
+}
+
+
+.title {
+	color : rgb(60,100,240);
+	font-weight: bold;	
+	line-height: 95%;
+}
+
+.post_message {	
+	margin : 5px 0px;
+	color : rgb(30,30,30);
+}
+
+.post_info {	
+	padding : 2px, 0px;
+	font-size: 12px;		
+}
+
+.qbl {	
+	display: none;
+	font-style: italic;	
+	/*color: rgb(0,130,40);*/
+}
+
+.quote_no {
+	padding-right : 2px;
+}
+
+.dashed {text-decoration: line-through;}
+.dashed:hover {text-decoration: line-through;}
+
+.post_message .quote_no {
+	color: rgb(60,100,240);
+}
+
+.file_info {
+	font-size: 12px;	
+	margin-top : 10px;	
+}
+
+.file_thumb {
+	float : left;
+	margin : 0px 10px 5px 0px;
+}
+
+.quote_txt {
+	font-style : italic;
+	color: rgb(100,100,100);
+}
+
+#submit_reply_div {
+	text-align: center;
+}
+
+#submit_reply {
+
+}
+
+/* media queries */
+@media only screen and (max-width: 480px) {		
+	.infobox {
+		font-size : 12px;
+	}
+
+	.post {
+		width : 98%;
+	}
+
+	#reply_input_file {
+		width: 180px;	
+	}
+	.post_num {
+		font-size: 14px;
+	}
+}

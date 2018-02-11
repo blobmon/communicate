@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href='/static/assets/favicon.ico' />
+
+	<title>About</title>
+
+	<style type='text/css'>
+		/*
+		basic style start
+		*/
+		body {font-family : arial,helvetica,sans-serif; font-size: 14px; 
+			color : rgb(130,130,130);
+			background-color:rgb(245,245,245);
+			margin: 10px;
+
+		}
+
+		#big_div {width:80%; margin:0px auto; }
+
+
+		/* media queries */
+		@media only screen and (max-width: 600px) {
+			body {margin : 2px;}
+			#big_div{width: 98%; padding:5px 2px}	
+			.headerleft {display: block;}
+		}
+
+		.small {	
+			font-size: 12px;
+		}
+
+		#header {	
+			line-height: 18px;
+			color : rgb(130,130,130);
+			background-color: rgb(230,230,230);
+			padding: 2px;
+		}
+
+		.headerright {
+			float: right;
+		}
+
+		.clear {
+			clear: both;
+		}
+
+		a {
+			text-decoration: none;
+			color : rgb(100,100,100);
+			cursor : pointer;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		.home {
+			font-weight: bold;
+			font-size: 16px;
+			color : rgb(60,190,30);
+		}
+
+		.home:hover {
+			text-decoration: none;
+		}
+		/*
+		basic style end
+		*/
+
+		#other {
+			color : rgb(30,30,30);
+		}
+
+		.q { color : rgb(60,150,30); }
+		.a { margin-left: 10px; }
+
+	</style>
+
+
+
+</head>
+
+<body>	
+	<div id='big_div'>	
+		<div id='header'>
+			<span class='headerleft'>
+				{{header.home_element | safe}}&nbsp;
+				{{header.headerleft_elements | safe}}
+			</span>
+			<span class='headerright'>
+				{{header.headerright_elements | safe}}
+			</span>
+			<div class='clear'></div>
+		</div>
+
+		<br>
+		<div id='other'>
+			<p><strong>What is this site all about?</strong><br>{{header.site_name}} is a place where one can discuss about any topic related to life in Bangalore. The site is designed keeping in mind that communication between human beings is the most important thing that can happen on the internet (or in real life). </p>
+
+			<p>Users can create a thread and discuss about any topic related to life in bangalore: be it discussing about things, asking for help, informing or organising events, or any other topic. The whole point is to communicate with fellow city dwellers (or non-city dwellers as long as the context is related to life in Bangalore) in an effective, direct manner. <p>
+
+			
+			<p><strong>Posting guidelines :</strong><br>Do not post vulgar content, be it verbal or non-verbal. Avoid spamming and keep the content qualitative. Also, do not use this site as a mere form of mindless entertainment. There are lots of other places on the internet where one can have that kind of junk entertainment. This does not mean there cannot be any fun on this site, There can be lots. This also does not mean there cannot be any discord between the users. To put it in other words, use the site to actually communicate with fellow humans like you would with a friend.</p>
+
+			<p><strong>Information on how the site functions :</strong><br>The site will not track you and will not store your IP address. The site is designed frugally and to be fast and clutter free. The site will hold 200 threads at most and any new threads created will automatically delete the older-most thread to keep the content fresh and dynamic. All the older posts will be automatically deleted when they become unavailable.</p>
+			<p>To keep moderation of this site honest and transparent, <a href='/mod_logs/'>moderation log</a> is made public.</p>
+
+
+			<p>
+			<strong>Frequently Asked Questions : </strong><br><br>
+			<span class='q'>How to start a thread or post a comment?</span><br>
+			<span class='a'>First you need to login, which is a very simple step. Then you can.</span><br><br>
+
+			<span class='q'>How do I reply to someone?</span><br>
+			<span class='a'>Click on the post number for whom you wish to reply to. This will bring up the reply dialog.</span><br><br>
+ 
+			<span class='q'>What are the types of images that can be uploaded?</span><br>
+			<span class='a'></span>png, jpg and gif types.<br><br>
+			</p>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
