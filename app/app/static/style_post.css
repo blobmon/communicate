@@ -94,6 +94,7 @@ basic style end
   border : 1px solid #777;
   z-index: 50;
   background-color:rgb(245,245,245);
+  color : rgb(30,30,30);
 }
 
 #popup_reply_box {
@@ -102,6 +103,7 @@ basic style end
   border : 1px solid #777;
   z-index: 100;
   background-color:rgb(245,245,245);
+  color : rgb(30,30,30);
 }
 
 table input[type="text"],
