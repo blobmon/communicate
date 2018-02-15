@@ -62,7 +62,6 @@ basic style end
 
 
 
-
 .thread_container {
 	margin-bottom : 20px;
 }
@@ -94,6 +93,10 @@ basic style end
 
 /* media queries */
 @media only screen and (max-width: 480px) {
+	#stream {
+		margin-left: 5px;
+	}
+
 	.thread_container {
 		margin-top : 10px;		
 	}	
