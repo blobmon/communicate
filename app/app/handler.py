@@ -299,13 +299,17 @@ class Handler:
 			stream_list.append(b)
 
 
-		#preparing header elements		
-		header = self.prepare_header_elements(username, '/' )
+		#preparing header elements
+		if new == False :
+			header = self.prepare_header_elements(username, '/' )
+		else :
+			header = self.prepare_header_elements(username, '/new/' )
+
 
 		if new == False :
 			page_title = '{}'.format(app.config['SITE_NAME'])
 		else :
-			page_title = '{} | Newest posts'.format(app.config['SITE_NAME'])
+			page_title = 'Newest posts | {}'.format(app.config['SITE_NAME'])
 			
 
 		return render_template('stream_page.html', header=header, page_title=page_title, stream_list=stream_list)
@@ -1494,8 +1498,16 @@ class Handler:
 		logout_goto = context		
 
 		home_element = "<a href='/' class='home'>{}</a>".format(app.config['SITE_NAME'])
-		newer_element = "<a href='/new/'>new</a>"
-		about_element = "<a href='/about/'>about</a>"
+
+		if context == '/new/' :
+			newer_element = "<a href='/new/'><strong>new</strong></a>"
+		else :
+			newer_element = "<a href='/new/'>new</a>"
+
+		if context == '/about/' :
+			about_element = "<a href='/about/'><strong>about</strong></a>"
+		else :
+			about_element = "<a href='/about/'>about</a>"
 
 		headerleft_elements_list = [newer_element, about_element]		
 
