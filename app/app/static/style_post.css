@@ -63,17 +63,35 @@ basic style end
 
 
 /* popup related */
+
+#reply_form_container {
+	width:80%; margin:0px auto;  /*similar to big_div */
+	position: relative;
+}
+
+@media only screen and (max-width: 600px) {
+	#reply_form_container {
+		width: 98%; padding:5px 2px; /*similar to big_div */
+		position: relative;
+	}
+}
+
+.close {
+	color : red;
+}
+
 .close, .snap {
   cursor : pointer;
-  font-family: monospace;
+  font-family: monospace;  
 }
+
 
 .good {
 	font-family: monospace;	
 }
 .bad {
 	font-family: monospace;
-	color: red;
+	color : #933;
 }
 
 #popup_generic {	
